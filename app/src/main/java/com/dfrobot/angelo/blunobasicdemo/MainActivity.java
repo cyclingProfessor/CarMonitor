@@ -7,58 +7,76 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
-	private Button buttonSerialSend;
-	private EditText serialSendText;
+    private ImageButton slowButton;
+    private ImageButton fastButton;
+    private ImageButton stopButton;
+    private ImageButton leftButton;
+    private ImageButton rightButton;
+    private ImageButton straightButton;
+    private ImageButton wifiButton;
+    private ImageButton infoButton;
+
 	private TextView serialReceivedText;
-	
+
+    private final String Fast = String.valueOf('+');
+    private final String Slow = String.valueOf('-');
+    private final String Stop = String.valueOf('0');
+    private final String Right = String.valueOf('R');
+    private final String Left = String.valueOf('L');
+    private final String Straight = String.valueOf('C');
+    private final String ToggleWiFi = String.valueOf('W');
+    private final String Info = String.valueOf('s');
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-        onCreateProcess();														//onCreate Process by BlunoLibrary
+        onCreateProcess();
 
+        serialBegin(115200);
 
-        serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
+        serialReceivedText=(TextView) findViewById(R.id.serialReceivedText);
 
-        serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);	//initial the EditText of the received data
-        serialSendText=(EditText) findViewById(R.id.serialSendText);			//initial the EditText of the sending data
+        slowButton=(ImageButton) findViewById(R.id.slowButton);
+        slowButton.setOnClickListener(v -> serialSend(Slow));
 
-        buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);		//initial the button for sending the data
-        buttonSerialSend.setOnClickListener(new OnClickListener() {
+        fastButton=(ImageButton) findViewById(R.id.fastButton);
+        fastButton.setOnClickListener(v -> serialSend(Fast));
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+        stopButton=(ImageButton) findViewById(R.id.stopButton);
+        stopButton.setOnClickListener(v -> serialSend(Stop));
 
-				serialSend(serialSendText.getText().toString());				//send the data to the BLUNO
-			}
-		});
+        leftButton=(ImageButton) findViewById(R.id.leftButton);
+        leftButton.setOnClickListener(v -> serialSend(Left));
 
-        buttonScan = (Button) findViewById(R.id.buttonScan);					//initial the button for scanning the BLE device
-        buttonScan.setOnClickListener(new OnClickListener() {
+        rightButton=(ImageButton) findViewById(R.id.rightButton);
+        rightButton.setOnClickListener(v -> serialSend(Right));
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+        straightButton=(ImageButton) findViewById(R.id.straightButton);
+        straightButton.setOnClickListener(v -> serialSend(Straight));
 
-				buttonScanOnClickProcess();										//Alert Dialog for selecting the BLE device
-			}
-		});
+        wifiButton=(ImageButton) findViewById(R.id.wifiButton);
+        wifiButton.setOnClickListener(v -> serialSend(ToggleWiFi));
+
+        infoButton=(ImageButton) findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(v -> serialSend(Info));
+
+        buttonScan = (Button) findViewById(R.id.buttonScan);
+        buttonScan.setOnClickListener(v ->	buttonScanOnClickProcess());
 	}
 
+    @Override
 	protected void onResume(){
 		super.onResume();
-		System.out.println("BlUNOActivity onResume");
 		onResumeProcess();														//onResume Process by BlunoLibrary
 	}
-	
-	
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		onActivityResultProcess(requestCode, resultCode, data);					//onActivityResult Process by BlunoLibrary
@@ -105,12 +123,10 @@ public class MainActivity  extends BlunoLibrary {
 		}
 	}
 
-	@Override
-	public void onSerialReceived(String theString) {							//Once connection data received, this function will be called
-		// TODO Auto-generated method stub
-		serialReceivedText.append(theString);							//append the text into the EditText
-		//The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
-		((ScrollView)serialReceivedText.getParent()).fullScroll(View.FOCUS_DOWN);
-	}
 
+    @Override
+    public void onSerialReceived(String theString) {							//Once connection data received, this function will be called
+        serialReceivedText.append(theString);							//append the text into the EditText
+        ((ScrollView)serialReceivedText.getParent()).fullScroll(View.FOCUS_DOWN);
+    }
 }

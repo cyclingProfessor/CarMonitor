@@ -3,6 +3,7 @@ package com.dfrobot.angelo.blunobasicdemo;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.Manifest;
 import android.os.Handler;
 import android.os.IBinder;
 import android.annotation.SuppressLint;
@@ -21,6 +22,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 
 public abstract  class BlunoLibrary  extends Activity{
 
+	private static final int MY_PERMISSIONS_REQUEST_LOCATION_FOR_BLE = 76543;
 	private Context mainContext=this;
 
 	
@@ -380,7 +384,26 @@ public abstract  class BlunoLibrary  extends Activity{
     	
     	
     }
-    
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case MY_PERMISSIONS_REQUEST_LOCATION_FOR_BLE: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					mBluetoothAdapter.startLeScan(mLeScanCallback);
+					scanLeDevice(true);
+				} else {
+					Toast.makeText(mainContext, R.string.require_location_for_ble,
+							Toast.LENGTH_SHORT).show();
+					((Activity) mainContext).finish();
+				}
+			}
+		}
+	}
+
+
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
 			// Stops scanning after a pre-defined scan period.
@@ -395,8 +418,16 @@ public abstract  class BlunoLibrary  extends Activity{
 			
 			if(!mScanning)
 			{
-				mScanning = true;
-				mBluetoothAdapter.startLeScan(mLeScanCallback);
+				if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+						!= PackageManager.PERMISSION_GRANTED) {
+					ActivityCompat.requestPermissions(this,
+							new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+							MY_PERMISSIONS_REQUEST_LOCATION_FOR_BLE);
+				} else {
+
+					mScanning = true;
+					mBluetoothAdapter.startLeScan(mLeScanCallback);
+				}
 			}
 		} else {
 			if(mScanning)
