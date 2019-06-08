@@ -1,9 +1,9 @@
 package com.dfrobot.angelo.blunobasicdemo;
 
 @SuppressWarnings("unchecked")
-public class RingBuffer<T> {
+class RingBuffer<T> {
 
-    private T[] buffer;          // queue elements
+    private final T[] buffer;          // queue elements
     private int count = 0;          // number of elements on queue
     private int indexOut = 0;       // index of first element of queue
     private int indexIn = 0;       // index of next available slot
@@ -42,20 +42,18 @@ public class RingBuffer<T> {
         }
     }
 
-    public T pop() {
+    public void pop() {
         if (isEmpty()) {
         	System.out.println("Ring buffer pop underflow");
 
 //            throw new RuntimeException("Ring buffer underflow");
         }
-        T item = buffer[indexOut];
         buffer[indexOut] = null;                  // to help with garbage collection
         if(count-- == 0)
         {
         	count = 0;
         }
         indexOut = (indexOut + 1) % buffer.length; // wrap-around
-        return item;
     }
     
     public T next() {

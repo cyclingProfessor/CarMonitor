@@ -1,28 +1,17 @@
 package com.dfrobot.angelo.blunobasicdemo;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
-    private ImageButton slowButton;
-    private ImageButton fastButton;
-    private ImageButton stopButton;
-    private ImageButton leftButton;
-    private ImageButton rightButton;
-    private ImageButton straightButton;
-    private ImageButton wifiButton;
-    private ImageButton infoButton;
 
-	private TextView serialReceivedText;
+    private TextView serialReceivedText;
 
     private final String Fast = String.valueOf('+');
     private final String Slow = String.valueOf('-');
@@ -39,35 +28,33 @@ public class MainActivity  extends BlunoLibrary {
 		setContentView(R.layout.activity_main);
         onCreateProcess();
 
-        serialBegin(115200);
+        serialReceivedText= findViewById(R.id.serialReceivedText);
 
-        serialReceivedText=(TextView) findViewById(R.id.serialReceivedText);
-
-        slowButton=(ImageButton) findViewById(R.id.slowButton);
+        ImageButton slowButton = findViewById(R.id.slowButton);
         slowButton.setOnClickListener(v -> serialSend(Slow));
 
-        fastButton=(ImageButton) findViewById(R.id.fastButton);
+        ImageButton fastButton = findViewById(R.id.fastButton);
         fastButton.setOnClickListener(v -> serialSend(Fast));
 
-        stopButton=(ImageButton) findViewById(R.id.stopButton);
+        ImageButton stopButton = findViewById(R.id.stopButton);
         stopButton.setOnClickListener(v -> serialSend(Stop));
 
-        leftButton=(ImageButton) findViewById(R.id.leftButton);
+        ImageButton leftButton = findViewById(R.id.leftButton);
         leftButton.setOnClickListener(v -> serialSend(Left));
 
-        rightButton=(ImageButton) findViewById(R.id.rightButton);
+        ImageButton rightButton = findViewById(R.id.rightButton);
         rightButton.setOnClickListener(v -> serialSend(Right));
 
-        straightButton=(ImageButton) findViewById(R.id.straightButton);
+        ImageButton straightButton = findViewById(R.id.straightButton);
         straightButton.setOnClickListener(v -> serialSend(Straight));
 
-        wifiButton=(ImageButton) findViewById(R.id.wifiButton);
+        ImageButton wifiButton = findViewById(R.id.wifiButton);
         wifiButton.setOnClickListener(v -> serialSend(ToggleWiFi));
 
-        infoButton=(ImageButton) findViewById(R.id.infoButton);
+        ImageButton infoButton = findViewById(R.id.infoButton);
         infoButton.setOnClickListener(v -> serialSend(Info));
 
-        buttonScan = (Button) findViewById(R.id.buttonScan);
+        buttonScan = findViewById(R.id.buttonScan);
         buttonScan.setOnClickListener(v ->	buttonScanOnClickProcess());
 	}
 
@@ -79,7 +66,7 @@ public class MainActivity  extends BlunoLibrary {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onActivityResultProcess(requestCode, resultCode, data);					//onActivityResult Process by BlunoLibrary
+		onActivityResultProcess(requestCode, resultCode);					//onActivityResult Process by BlunoLibrary
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
@@ -101,7 +88,7 @@ public class MainActivity  extends BlunoLibrary {
     }
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+	public void onConnectionStateChange(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
 		switch (theConnectionState) {											//Four connection state
 		case isConnected:
 			buttonScan.setText("Connected");

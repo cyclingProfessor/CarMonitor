@@ -45,13 +45,13 @@ public class BluetoothLeService extends Service {
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
-    BluetoothGatt mBluetoothGatt;
-    public String mBluetoothDeviceAddress;
-    
+    private BluetoothGatt mBluetoothGatt;
+
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
-    public int mConnectionState = STATE_DISCONNECTED;
+    @SuppressWarnings("unused")
+    private int mConnectionState = STATE_DISCONNECTED;
 
     
     //To tell the onCharacteristicWrite call back function that this is a new characteristic, 
@@ -64,7 +64,7 @@ public class BluetoothLeService extends Service {
 
     //class to store the Characteristic and content string push into the ring buffer.
     private class BluetoothGattCharacteristicHelper{
-    	BluetoothGattCharacteristic mCharacteristic;
+    	final BluetoothGattCharacteristic mCharacteristic;
     	String mCharacteristicValue;
     	BluetoothGattCharacteristicHelper(BluetoothGattCharacteristic characteristic, String characteristicValue){
     		mCharacteristic=characteristic;
@@ -72,7 +72,7 @@ public class BluetoothLeService extends Service {
     	}
     }
     //ring buffer
-    private RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<BluetoothGattCharacteristicHelper>(8);
+    private final RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<>(8);
     
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -193,7 +193,7 @@ public class BluetoothLeService extends Service {
 	        	//WRITE a NEW CHARACTERISTIC
 	        	else if(status == WRITE_NEW_CHARACTERISTIC)
 	        	{
-	        		if((!mCharacteristicRingBuffer.isEmpty()) && mIsWritingCharacteristic==false)
+	        		if((!mCharacteristicRingBuffer.isEmpty()) && !mIsWritingCharacteristic)
 	            	{
 	            		BluetoothGattCharacteristicHelper bluetoothGattCharacteristicHelper = mCharacteristicRingBuffer.next();
 	            		if(bluetoothGattCharacteristicHelper.mCharacteristicValue.length() > MAX_CHARACTERISTIC_LENGTH)
@@ -272,7 +272,7 @@ public class BluetoothLeService extends Service {
                                          int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
             	System.out.println("onCharacteristicRead  "+characteristic.getUuid().toString());
-                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+                broadcastUpdate(characteristic);
             }
         }
         @Override
@@ -285,7 +285,7 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
         	System.out.println("onCharacteristicChanged  "+new String(characteristic.getValue()));
-            broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            broadcastUpdate(characteristic);
         }
     };
     
@@ -294,9 +294,8 @@ public class BluetoothLeService extends Service {
         sendBroadcast(intent);
     }
 
-    private void broadcastUpdate(final String action,
-                                 final BluetoothGattCharacteristic characteristic) {
-        final Intent intent = new Intent(action);
+    private void broadcastUpdate(final BluetoothGattCharacteristic characteristic) {
+        final Intent intent = new Intent(BluetoothLeService.ACTION_DATA_AVAILABLE);
         System.out.println("BluetoothLeService broadcastUpdate");
         // This is special handling for the Heart Rate Measurement profile.  Data parsing is
         // carried out as per profile specifications:
@@ -351,25 +350,25 @@ public class BluetoothLeService extends Service {
      *
      * @return Return true if the initialization is successful.
      */
-    public boolean initialize() {
+    public boolean notInitialized() {
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
-    	System.out.println("BluetoothLeService initialize"+mBluetoothManager);
+    	System.out.println("BluetoothLeService notInitialized"+mBluetoothManager);
         if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
-                Log.e(TAG, "Unable to initialize BluetoothManager.");
-                return false;
+                Log.e(TAG, "Unable to notInitialized BluetoothManager.");
+                return true;
             }
         }
 
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
             Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -416,7 +415,6 @@ public class BluetoothLeService extends Service {
 			mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
 		}
         Log.d(TAG, "Trying to create a new connection.");
-        mBluetoothDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
         return true;
     }
@@ -487,11 +485,9 @@ public class BluetoothLeService extends Service {
             // this should never happen because "US-ASCII" is hard-coded.
             throw new IllegalStateException(e);
         }
-        System.out.println("allwriteCharacteristicString:"+writeCharacteristicString);
-        
+
         //As the communication is asynchronous content string and characteristic should be pushed into an ring buffer for further transmission
     	mCharacteristicRingBuffer.push(new BluetoothGattCharacteristicHelper(characteristic,writeCharacteristicString) );
-    	System.out.println("mCharacteristicRingBufferlength:"+mCharacteristicRingBuffer.size());
 
 
     	//The progress of onCharacteristicWrite and writeCharacteristic is almost the same. So callback function is called directly here
