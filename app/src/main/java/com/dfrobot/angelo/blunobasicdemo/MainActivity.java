@@ -21,6 +21,7 @@ public class MainActivity  extends BlunoLibrary {
     private final String Straight = String.valueOf('C');
     private final String ToggleWiFi = String.valueOf('W');
     private final String Info = String.valueOf('s');
+    private boolean stoppingForPreferences = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,16 @@ public class MainActivity  extends BlunoLibrary {
         ImageButton infoButton = findViewById(R.id.infoButton);
         infoButton.setOnClickListener(v -> serialSend(Info));
 
+        Button preferencesButton = findViewById(R.id.prefButton);
+        preferencesButton.setOnClickListener(v -> {
+            if (getState() == connectionStateEnum.isConnected) {
+                Intent intent = new Intent(this, SettingsActivity.class);
+                stoppingForPreferences = true;
+                serialSend(Straight);
+                startActivity(intent);
+            }
+        });
+
         buttonScan = findViewById(R.id.buttonScan);
         buttonScan.setOnClickListener(v ->	buttonScanOnClickProcess());
 	}
@@ -61,6 +72,7 @@ public class MainActivity  extends BlunoLibrary {
     @Override
 	protected void onResume(){
 		super.onResume();
+		stoppingForPreferences = false;
 		onResumeProcess();														//onResume Process by BlunoLibrary
 	}
 
@@ -78,7 +90,9 @@ public class MainActivity  extends BlunoLibrary {
 	
 	protected void onStop() {
 		super.onStop();
-		onStopProcess();														//onStop Process by BlunoLibrary
+		if (!stoppingForPreferences) {
+            onStopProcess();                                                        //onStop Process by BlunoLibrary
+        }
 	}
     
 	@Override

@@ -16,6 +16,8 @@ import java.util.TreeSet;
 public class SettingsFragment extends PreferenceFragment {
     private final static String TAG = SettingsFragment.class.getSimpleName();
     private SettingsFragment me = this;
+    private StringBuffer parameterString;
+    private SharedPreferences sharedPref;
 
     interface Sender {
         public void serialSend(String msg);
@@ -27,13 +29,19 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.app_preferences);
 
-    ArrayList<Preference> bars = new ArrayList<>();
+        ArrayList<Preference> bars = new ArrayList<>();
         bars.add(findPreference("L_Min"));
         bars.add(findPreference("L_Max"));
         bars.add(findPreference("A_Min"));
         bars.add(findPreference("A_Max"));
         bars.add(findPreference("B_Min"));
         bars.add(findPreference("B_Max"));
+
+        sharedPref = ((SettingsFragment) me).getPreferenceScreen().getSharedPreferences();
+        parameterString = new StringBuffer(String.format(Locale.UK, "{CR%03d%03d%03d%03d%03d%03d}",
+                sharedPref.getInt("L_Min", 0), sharedPref.getInt("L_Max", 100),
+                2 * sharedPref.getInt("A_Min", 0), 2 * sharedPref.getInt("A_Max", 100),
+                2 * sharedPref.getInt("B_Min", 0), 2 * sharedPref.getInt("B_Max", 100)));
 
         Set<String> ss = new TreeSet<String>();
         bars.forEach(b -> b.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -51,10 +59,8 @@ public class SettingsFragment extends PreferenceFragment {
                     }
                 }
                 try {
-                    ((Sender) getActivity()).serialSend(String.format(Locale.UK, "C%03d%03d%03d%03d%03d%03d",
-                            sharedPref.getInt("L_Min", 0), sharedPref.getInt("L_Max", 100),
-                            2 * sharedPref.getInt("A_Min", 0) - 128, 2 * sharedPref.getInt("A_Max", 100) - 128,
-                            2 * sharedPref.getInt("B_Min", 0) - 128, 2 * sharedPref.getInt("B_Max", 100) - 128));
+                    parameterString.replace(3 * (index + 1), 3 * (index + 2), String.format("%03d", (index < 2 ? 1 : 2) * (int) o));
+                    ((Sender) getActivity()).serialSend(String.valueOf(parameterString));
                 } catch (ClassCastException cce) {
                 }
 

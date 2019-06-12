@@ -91,6 +91,8 @@ public class SettingsActivity extends PreferenceActivity implements SettingsFrag
 
     @Override
     public void serialSend(String theString){
+        Log.d(TAG, "Sending LAB Values: " + theString);
+
         mSerialPortCharacteristic.setValue(theString);
         mBluetoothLeService.writeCharacteristic(mSerialPortCharacteristic);
     }

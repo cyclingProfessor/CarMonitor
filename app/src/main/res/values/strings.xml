@@ -4,4 +4,6 @@
     <string name="unknown_device">Unknown device</string>
     <string name="require_location_for_ble">Sorry - we need to have location permission to scan for the car!</string>
     <string name="scan">Scan</string>
+    <string name="preferences">Settings</string>
+    <string name="title_activity_settings">Set Preferences</string>
 </resources>
