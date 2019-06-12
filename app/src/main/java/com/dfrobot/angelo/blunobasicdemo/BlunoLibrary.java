@@ -69,6 +69,9 @@ public abstract  class BlunoLibrary  extends Activity{
 		mConnectionState = state;
 		onConnectionStateChange(state);
 	}
+	public connectionStateEnum getState() {
+		return mConnectionState;
+	}
 
 	// We could fail to connect - so check after a time.
     private final Runnable mConnectingOverTimeRunnable=new Runnable(){
@@ -125,29 +128,25 @@ public abstract  class BlunoLibrary  extends Activity{
     	System.out.println("BLUNOActivity onPause");
 		scanner.scanLeDevice(false);
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
-    	mConnectionState=connectionStateEnum.isToScan;
-    	onConnectionStateChange(mConnectionState);
 		scanner.dismiss();
-		if(mBluetoothLeService!=null)
-		{
-			mBluetoothLeService.disconnect();
-            mHandler.postDelayed(mDisconnectingOverTimeRunnable, 10000);
-		}
-		mSCharacteristic=null;
-
 	}
 
 	void onStopProcess() {
 		System.out.println("MiUnoActivity onStop");
-		if(mBluetoothLeService!=null)
-		{
-        	mHandler.removeCallbacks(mDisconnectingOverTimeRunnable);
-			mBluetoothLeService.close();
-		}
-		mSCharacteristic=null;
+        // It seems that we can just not bother with the following
+        if(mBluetoothLeService!=null)
+        {
+            mBluetoothLeService.disconnect();
+            mConnectionState = connectionStateEnum.isToScan;
+            onConnectionStateChange(mConnectionState);
+            mHandler.postDelayed(mDisconnectingOverTimeRunnable, 10000);
+            mBluetoothLeService.close();
+        }
 	}
 
 	void onDestroyProcess() {
+        mHandler.removeCallbacks(mDisconnectingOverTimeRunnable);
+        mHandler.removeCallbacks(mConnectingOverTimeRunnable);
         mainContext.unbindService(mServiceConnection);
         mBluetoothLeService = null;
 	}
@@ -196,11 +195,6 @@ public abstract  class BlunoLibrary  extends Activity{
             	mHandler.removeCallbacks(mDisconnectingOverTimeRunnable);
             	mBluetoothLeService.close();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-            	for (BluetoothGattService gattService : mBluetoothLeService.getSupportedGattServices()) {
-            		System.out.println("ACTION_GATT_SERVICES_DISCOVERED  "+
-            				gattService.getUuid().toString());
-            	}
             	getGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
             	if(mSCharacteristic==mModelNumberCharacteristic)
