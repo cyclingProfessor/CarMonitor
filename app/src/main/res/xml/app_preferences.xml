@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    >
+    <SeekBarPreference
+        android:key="L_Min"
+        android:id="@+id/LMin"
+        android:defaultValue="0"
+        android:max="100"
+        android:title="L Min"
+        />
+    <SeekBarPreference
+        android:key="L_Max"
+        android:id="@+id/LMax"
+        android:defaultValue="100"
+        android:max="100"
+        android:title="L Max"
+        />
+    <SeekBarPreference
+        android:key="A_Min"
+        android:id="@+id/AMin"
+        android:defaultValue="0"
+        android:max="127"
+        android:title="A Min"
+        />
+    <SeekBarPreference
+        android:key="A_Max"
+        android:id="@+id/AMax"
+        android:defaultValue="127"
+        android:max="127"
+        android:title="A Max"
+        />
+    <SeekBarPreference
+        android:key="B_Min"
+        android:id="@+id/BMin"
+        android:defaultValue="0"
+        android:max="127"
+        android:title="B Min"
+        />
+    <SeekBarPreference
+        android:key="B_Max"
+        android:id="@+id/BMax"
+        android:defaultValue="127"
+        android:max="127"
+        android:title="B Max"
+        />
+</PreferenceScreen>
