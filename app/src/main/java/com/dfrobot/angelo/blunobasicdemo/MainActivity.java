@@ -61,6 +61,7 @@ public class MainActivity  extends BlunoLibrary {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 stoppingForPreferences = true;
                 serialSend(Straight);
+                serialSend(Stop);
                 startActivity(intent);
             }
         });
