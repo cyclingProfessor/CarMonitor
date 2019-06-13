@@ -6,7 +6,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/controlButtons"
+        android:id="@+id/BLEButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,11 +18,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/scan"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/cameraButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/BLEButtons" >
         <Button
             android:id="@+id/prefButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/preferences"/>
+        <Button
+            android:id="@+id/balanceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ResetCamera"/>
+        <ToggleButton
+            android:id="@+id/followButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/Follow"
+            android:textOff="@string/Radio"/>
 
     </LinearLayout>
 
@@ -32,7 +52,7 @@
         android:layout_margin="8dp"
         android:textSize="@dimen/textSize"
         app:layout_constraintBottom_toTopOf="@id/directions"
-        app:layout_constraintTop_toBottomOf="@+id/controlButtons" >
+        app:layout_constraintTop_toBottomOf="@+id/cameraButtons" >
 
         <TextView
             android:id="@+id/serialReceivedText"
@@ -41,7 +61,7 @@
             android:layout_margin="8dp"
             android:textSize="@dimen/textSize"
             app:layout_constraintBottom_toTopOf="@id/directions"
-            app:layout_constraintTop_toBottomOf="@+id/controlButtons" />
+            app:layout_constraintTop_toBottomOf="@+id/cameraButtons" />
     </ScrollView>
 
     <LinearLayout

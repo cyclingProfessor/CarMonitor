@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
@@ -54,6 +55,12 @@ public class MainActivity  extends BlunoLibrary {
 
         ImageButton infoButton = findViewById(R.id.infoButton);
         infoButton.setOnClickListener(v -> serialSend(Info));
+
+        Button balanceButton = findViewById(R.id.balanceButton);
+        balanceButton.setOnClickListener(v -> serialSend("{L@}"));
+
+        ToggleButton followButton = findViewById(R.id.followButton);
+        followButton.setOnClickListener(v -> serialSend("{R@}"));
 
         Button preferencesButton = findViewById(R.id.prefButton);
         preferencesButton.setOnClickListener(v -> {
