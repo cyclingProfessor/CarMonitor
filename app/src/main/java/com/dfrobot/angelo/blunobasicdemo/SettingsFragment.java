@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment {
         bars.forEach(b -> b.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                SharedPreferences sharedPref = ((SettingsFragment) me).getPreferenceScreen().getSharedPreferences();
+                SharedPreferences sharedPref = me.getPreferenceScreen().getSharedPreferences();
                 int index = bars.indexOf(preference);
                 if (index % 2 == 1) {
                     if (sharedPref.getInt(bars.get(index - 1).getKey(), 0) > (int) o - 5) {
@@ -60,7 +60,7 @@ public class SettingsFragment extends PreferenceFragment {
                 }
                 try {
                     parameterString.replace(3 * (index + 1), 3 * (index + 2), String.format("%03d", (index < 2 ? 1 : 2) * (int) o));
-                    ((Sender) getActivity()).serialSend(String.valueOf(parameterString));
+                    sendLineColourParameters();
                 } catch (ClassCastException cce) {
                 }
 
@@ -69,4 +69,7 @@ public class SettingsFragment extends PreferenceFragment {
         }));
     }
 
+    public void sendLineColourParameters() {
+        ((Sender) getActivity()).serialSend(String.valueOf(parameterString));
+    }
 }

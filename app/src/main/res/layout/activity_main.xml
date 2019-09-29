@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mainbg"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
         android:id="@+id/BLEButtons"
         android:layout_width="wrap_content"
@@ -46,19 +52,59 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/rearDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:text="Inf"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        android:src="@drawable/ic_simpleyellowcartopview"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButtons">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/frontRightDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inf"
+        app:layout_constraintLeft_toRightOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@id/imageView"/>
+
+    <TextView
+        android:id="@+id/frontLeftDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inf"
+        app:layout_constraintLeft_toRightOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"/>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        android:textSize="@dimen/textSize"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@id/directions"
-        app:layout_constraintTop_toBottomOf="@+id/cameraButtons" >
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButtons">
 
         <TextView
             android:id="@+id/serialReceivedText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="18dp"
+            android:textColor="#FF0000"
             android:textSize="@dimen/textSize"
             app:layout_constraintBottom_toTopOf="@id/directions"
             app:layout_constraintTop_toBottomOf="@+id/cameraButtons" />

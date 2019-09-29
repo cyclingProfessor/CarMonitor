@@ -34,7 +34,6 @@ public class SettingsActivity extends PreferenceActivity implements SettingsFrag
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
-        SharedPreferences prefs = this.getSharedPreferences("settings", 0);
 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
