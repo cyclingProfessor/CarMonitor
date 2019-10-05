@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dfrobot.angelo.blunobasicdemo">
+    package="cyclingProfessor.CarMonitor">
 
     <!--
 Declare this required feature if you want to make the app available to BLE-capable
@@ -29,7 +29,7 @@ PackageManager.hasSystemFeature(FEATURE_BLUETOOTH_LE)
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dfrobot.angelo.blunobasicdemo.MainActivity" />
+                android:value="cyclingProfessor.CarMonitor.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"

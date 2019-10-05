@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dfrobot.angelo.blunobasicdemo;
+package cyclingProfessor.CarMonitor;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;

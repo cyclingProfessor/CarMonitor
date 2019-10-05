@@ -7,7 +7,7 @@
     tools:context=".SettingsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <fragment android:name="com.dfrobot.angelo.blunobasicdemo.SettingsFragment"
+    <fragment android:name="cyclingProfessor.CarMonitor.SettingsFragment"
         android:id="@+id/settings"
         android:layout_weight="1"
         android:layout_width="match_parent"

@@ -9,4 +9,5 @@
     <string name="ResetCamera">Reset\n Camera</string>
     <string name="Follow">Follow\n Lane</string>
     <string name="Radio">Radio\n Control</string>
+    <string name="infinity">Inf</string>
 </resources>

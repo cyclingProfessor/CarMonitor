@@ -1,12 +1,9 @@
-package com.dfrobot.angelo.blunobasicdemo;
+package cyclingProfessor.CarMonitor;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
-import android.widget.SeekBar;
 
 import java.util.ArrayList;
 import java.util.Locale;

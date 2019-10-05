@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="cyclingProfessor.CarMonitor.MainActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
-        android:text="Inf"
+        android:text="@string/infinity"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView" />
 
@@ -76,7 +76,7 @@
         android:id="@+id/frontRightDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inf"
+        android:text="@string/infinity"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView"/>
 
@@ -84,7 +84,7 @@
         android:id="@+id/frontLeftDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inf"
+        android:text="@string/infinity"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"/>
 
@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/directions"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
