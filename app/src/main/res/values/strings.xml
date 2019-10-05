@@ -10,4 +10,14 @@
     <string name="Follow">Follow\n Lane</string>
     <string name="Radio">Radio\n Control</string>
     <string name="infinity">Inf</string>
+    <string name="turn_more_left">Turn (more) Left</string>
+    <string name="go_slower">Go Slower</string>
+    <string name="stop">Stop</string>
+    <string name="go_faster">Go Faster</string>
+    <string name="toggle_wifi">Toggle WiFi</string>
+    <string name="get_car_info">Get Car Info</string>
+    <string name="wheels_straight">Set Wheels to Straight On</string>
+    <string name="bkgd_image">"Background Google Car image because it is beautiful"</string>
+    <string name="toy_car">Small image of the toy car to display sensor values on</string>
+    <string name="turn_more_right">Turn (more) Right"</string>
 </resources>

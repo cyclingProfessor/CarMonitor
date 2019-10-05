@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/mainbg"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/bkgd_image"/>
 
     <LinearLayout
         android:id="@+id/BLEButtons"
@@ -55,8 +56,10 @@
     <TextView
         android:id="@+id/rearDistance"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="8dp"
+        android:textSize="32sp"
+        android:textColor="@color/opaque_red"
         android:gravity="center_vertical"
         android:text="@string/infinity"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
@@ -64,12 +67,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_simpleyellowcartopview"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
-        android:src="@drawable/ic_simpleyellowcartopview"
-        app:layout_constraintTop_toBottomOf="@+id/cameraButtons">
+        app:layout_constraintTop_toBottomOf="@+id/cameraButtons"
+        android:contentDescription="@string/toy_car">
 
     </ImageView>
     <TextView
@@ -77,6 +81,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/infinity"
+        android:textSize="32sp"
+        android:textColor="@color/opaque_red"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView"/>
 
@@ -85,6 +91,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/infinity"
+        android:textSize="32sp"
+        android:textColor="@color/opaque_red"
         app:layout_constraintLeft_toRightOf="@+id/imageView"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"/>
 
@@ -124,21 +132,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_undo_black_24dp" />
+            android:src="@drawable/ic_undo_black_24dp"
+            android:contentDescription="@string/turn_more_right"/>
 
         <ImageButton
             android:id="@+id/straightButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_arrow_upward_black_24dp" />
+            android:src="@drawable/ic_arrow_upward_black_24dp"
+            android:contentDescription="@string/wheels_straight"/>
 
         <ImageButton
             android:id="@+id/rightButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_redo_black_24dp" />
+            android:src="@drawable/ic_redo_black_24dp"
+            android:contentDescription="@string/turn_more_left"/>
 
     </LinearLayout>
 
@@ -156,21 +167,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_fast_rewind_black_24dp" />
+            android:src="@drawable/ic_fast_rewind_black_24dp"
+            android:contentDescription="@string/go_slower"/>
 
         <ImageButton
             android:id="@+id/stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_stop_black_24dp" />
+            android:src="@drawable/ic_stop_black_24dp"
+            android:contentDescription="@string/stop"/>
 
         <ImageButton
             android:id="@+id/fastButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_fast_forward_black_24dp" />
+            android:src="@drawable/ic_fast_forward_black_24dp"
+            android:contentDescription="@string/go_faster"/>
 
     </LinearLayout>
 
@@ -188,14 +202,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_wifi_black_24dp" />
+            android:src="@drawable/ic_wifi_black_24dp"
+            android:contentDescription="@string/toggle_wifi"/>
 
         <ImageButton
             android:id="@+id/infoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/ic_perm_device_information_black_24dp" />
+            android:src="@drawable/ic_perm_device_information_black_24dp"
+            android:contentDescription="@string/get_car_info"/>
     </LinearLayout>
 
 
