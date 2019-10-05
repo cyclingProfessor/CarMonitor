@@ -128,7 +128,6 @@ public abstract  class BlunoLibrary  extends Activity{
     	System.out.println("BLUNOActivity onPause");
 		scanner.scanLeDevice(false);
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
-		scanner.dismiss();
 	}
 
 	void onStopProcess() {
