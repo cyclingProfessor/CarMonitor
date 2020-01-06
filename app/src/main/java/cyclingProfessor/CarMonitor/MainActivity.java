@@ -29,8 +29,8 @@ public class MainActivity  extends BlunoLibrary {
     private final String Straight = String.valueOf('C');
     private final String ToggleWiFi = String.valueOf('W');
     private final String Info = String.valueOf('s');
-    private final String SetFollow = "R{A1}";
-    private final String SetNoFollow = "R{A0}";
+    private final String SetFollow = "{RA1}";
+    private final String SetNoFollow = "{RA0}";
     private boolean stoppingForPreferences = false;
     private ToggleButton followButton;
     private TextView frontRight, frontLeft, rear;
